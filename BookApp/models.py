@@ -12,7 +12,7 @@ class Author(models.Model):
     popularity_score = models.IntegerField()
     followers = models.ManyToManyField('User', related_name='followed_authors', related_query_name='followed_authors')
     def __str__(self):
-        return self.firstname + ' ' + self.lastname
+        return self.firstname+' '+self.lastname
 
 class Books(models.Model):
     title = models.CharField(max_length=100)
@@ -21,6 +21,19 @@ class Books(models.Model):
     published_date = models.DateField()
     author = models.ForeignKey('Author', on_delete=models.CASCADE, related_name='books', related_query_name='books')
     publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, related_name='books', related_query_name='books')
+    def __str__(self):
+        return self.title
+
+class Books2(models.Model):
+    title = models.CharField(max_length=100)
+    genre = models.CharField(max_length=200)
+    price = models.IntegerField(null=True)
+    content = models.JSONField(null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    published_date = models.DateField()
+    author = models.ForeignKey('Author', on_delete=models.CASCADE, related_name='books2', related_query_name='books2')
+    publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, related_name='books2', related_query_name='books2')
     def __str__(self):
         return self.title
 

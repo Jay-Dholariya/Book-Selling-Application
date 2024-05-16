@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {% comment %} {% with first='loice' %}
+    <h1>my old name is {{first}}</h1>
+    {% endwith %} {% endcomment %}
+    
+    
+    {% comment %} <h2>My Name is {{firstname}}
+        {% for a in name %}
+            {{a.firstname}}
+        {% endfor %}
+    </h2> {% endcomment %}
+
+    <ul>
+        {% for i in member %}
+            
+            {% if i.firstname != 'Tulsi' and i.lastname != 'Vyasa' %}
+                <li>{{i.firstname}}</li>
+            {% elif i.lastname != 'Das'%}
+                <li>{{i.firstname}} {{i.lastname}}</li>
+            {% else %}
+                <li>{{i.popularity_score}}</li>
+            {% endif %}
+
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
