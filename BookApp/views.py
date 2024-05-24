@@ -3,9 +3,11 @@ from django.http import HttpResponse,HttpResponseRedirect
 from .models import *
 from .serializers import booksSerializers
 from rest_framework.request import Request
-from rest_framework.decorators import api_view,throttle_classes
+from rest_framework.decorators import api_view,throttle_classes,authentication_classes,permission_classes
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 
 
 # Create your views here.
@@ -24,16 +26,21 @@ def demo(request):
     mymember = Author.objects.all().values()
     return render(request,"index.html",{'member':mymember})
 
-def testing(request):
+def testing(request):                      
     context = {'heading': "the hello &lt; heyy &gt; byy < heyy"}
     return render(request,'test.html',context)
 
 class OncePerDayUserThrottle(UserRateThrottle):
-    rate = '5/day'
+    rate = '500/day'
 
-@api_view(['GET', 'POST','DELETE','PUT','PATCH'])
+@api_view(['GET', 'POST'])
 @throttle_classes([OncePerDayUserThrottle])
-def form1(request:Request):
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsAuthenticated])
+# @permission_classes([])
+# @permission_classes([IsAdminUser])
+def form1(request:Request, version=None):
+    
     if request.method == "POST":
         form = booksSerializers(data = request.data)
             
